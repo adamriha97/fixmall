@@ -51,7 +51,7 @@ Aby bala úprava provedena, musí být přidána do sekce `Aktuální úpravy`. 
 
 ## Ultimate funkce
 
-Vytvoření nového XML souboru s doplněnými a zároveň upravenými daty můžete provést stiskem tlačítka `Ultimate XML`.
+Vytvoření nového XML souboru s doplněnými a zároveň upravenými daty můžete provést stiskem tlačítka `Ultimate XML`. Nejprve proběhne doplnění, až poté proběhne úprava, což může být důležité v případě, že se upravuje jen určitý interval stáří pomocí `Od` a `Do`.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/adamriha97/fixmall/main/icon_fixmall.ico" />

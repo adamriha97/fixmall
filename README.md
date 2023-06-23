@@ -53,7 +53,7 @@ To apply the modification, it needs to be added to the `Current Modifications` (
 
 ## Ultimate Function
 
-To create a new XML file with both filled and modified data, you can use the `Ultimate XML` button.
+To create a new XML file with both filled and modified data, you can use the `Ultimate XML` button. First, supplementation will take place, and only then will the adjustment occur, which can be important in case only a specific age range is being adjusted using `From` (`Od`) and `To` (`Do`).
 
 
 <p align="center">
