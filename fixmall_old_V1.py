@@ -15,6 +15,60 @@ class Change:
         self.start = start
         self.end = end
 
+root = tk.Tk()
+
+root.configure(bg="#00234b") #00234b #003876 #ef7a00
+root.geometry("800x600")
+root.title("FixMall ULTIMATE - AAD edition")
+
+# název
+logo_grig = tk.Frame(root, bg="#00234b")
+logo_grig.columnconfigure(0, weight=1)
+logo_grig.columnconfigure(1, weight=1)
+
+logo = tk.Label(logo_grig, text="FixMall", font=("Impact", 30), bg="#00234b", fg="white")
+logo.grid(column=0, row=0, rowspan=2, sticky="w", padx=5, pady=5)
+
+logo_aad = tk.Label(logo_grig, text=("agentúra auto data").upper(), font=("Lexend", 10, "bold"), bg="#00234b", fg="#ef7a00")
+logo_aad.grid(column=1, row=0, sticky="e", padx=5, pady=(5,0))
+
+logo_edition = tk.Label(logo_grig, text="EDITION", font=("Lexend", 10, "bold"), bg="#00234b", fg="#ef7a00")
+logo_edition.grid(column=1, row=1, sticky="e", padx=5, pady=(0, 5))
+
+logo_grig.pack(fill="x")
+
+# ultimate název
+ultimate_grid = tk.Frame(root, bg="#00234b")
+ultimate_grid.columnconfigure(0, weight=1)
+ultimate_grid.columnconfigure(1, weight=2)
+ultimate_grid.columnconfigure(2, weight=2)
+ultimate_grid.columnconfigure(3, weight=2)
+ultimate_grid.columnconfigure(4, weight=2)
+ultimate_grid.columnconfigure(5, weight=2)
+ultimate_grid.columnconfigure(6, weight=2)
+ultimate_grid.columnconfigure(7, weight=1)
+ult_U = tk.Label(ultimate_grid, text="U", font=("Georgia", 15, "bold"), bg="#00234b", fg="white")
+ult_U.grid(column=0, row=0, padx=5, pady=(0, 15), sticky="w")
+ult_L = tk.Label(ultimate_grid, text="L", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ffe6cc")
+ult_L.grid(column=1, row=0, padx=5, pady=(0, 15))
+ult_T = tk.Label(ultimate_grid, text="T", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ffcd99")
+ult_T.grid(column=2, row=0, padx=5, pady=(0, 15))
+ult_I = tk.Label(ultimate_grid, text="I", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ffb266")
+ult_I.grid(column=3, row=0, padx=5, pady=(0, 15))
+ult_M = tk.Label(ultimate_grid, text="M", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ff9933")
+ult_M.grid(column=4, row=0, padx=5, pady=(0, 15))
+ult_A = tk.Label(ultimate_grid, text="A", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ff8000")
+ult_A.grid(column=5, row=0, padx=5, pady=(0, 15))
+ult_T2 = tk.Label(ultimate_grid, text="T", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ff6600")
+ult_T2.grid(column=6, row=0, padx=5, pady=(0, 15))
+ult_E = tk.Label(ultimate_grid, text="E", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ef7a00")
+ult_E.grid(column=7, row=0, padx=5, pady=(0, 15), sticky="e")
+ultimate_grid.pack(fill="x")
+
+# název
+# label = tk.Label(root, text="AAD XML Solver Ultimate", font=('Arial', 21))
+# label.pack(padx=15, pady=15)
+
 def destroyCahngesList():
     global changes_labels
     for i in range(0, len(changes_labels)):
@@ -47,7 +101,6 @@ def fillChangesList():
             col = "#003876"
         else:
             col = "#00234b"
-
 def addChange():
     destroyCahngesList()
     changes.append(Change(koeficient.get(), znacka.get(), model.get(), od.get(), do.get()))
@@ -113,7 +166,7 @@ def nactiZnacky():
     global znacky, tree, root_orig
     tree = ET.parse(os.path.join(directory, (file_name+".xml")))
     root_orig = tree.getroot()
-    znacky = ["Všechny značky"]
+    znacky = []
     for man_rec in root_orig.find("Manufacturer"):
         znacky.append(man_rec.find("Text").text)
     znacka['values'] = znacky
@@ -140,9 +193,9 @@ def nactiZnacky():
     delete_all_changes.unbind("<Leave>")
 
 def nahrat_fce():
-    global directory, file_name, changes, exit
+    global directory, file_name, changes
     # "/Users/adamr/PycharmProjects/AAD_xml_solver_ultimate/"
-    root.filename = filedialog.askopenfilename(initialdir="/", title="Vyberte XML", filetypes=[('XML files', '*.xml')]) # filetypes=(("XML soubory", "*.xml"), ("Všechny soubory", "*.xml*"))
+    root.filename = filedialog.askopenfilename(initialdir="/", title="Vyberte XML", filetypes=(("XML soubory", "*.xml"), ("Všechny soubory", "*.*")))
     if root.filename != "":
         directory = os.path.dirname(root.filename)
         file_name = os.path.splitext(os.path.basename(root.filename))[0]
@@ -173,7 +226,6 @@ def nahrat_fce():
         destroyCahngesList()
         changes = []
         nactiZnacky()
-        exit = False
 
 def interpolate(arr):
     # Create an array of indices for the input array.
@@ -182,6 +234,73 @@ def interpolate(arr):
     y = arr[np.logical_not(np.isnan(arr))]
     # Interpolate the missing values using the interp() function.
     return np.interp(x, x[np.logical_not(np.isnan(arr))], y)
+
+def fillXML_old(file, max_year=datetime.datetime.now().year):
+    # Load the input XML file
+    tree_new = ET.parse(file)
+    root_new = tree_new.getroot()
+    root_price = root_new.find("Price")
+
+    # Get all unique VehicleIDs from the input XML file
+    vehicle_ids = set()
+    for vehicle_record in root_new.find("Vehicle"):
+        vehicle_ids.add(vehicle_record.find("VehicleID").text)
+
+    n = 0
+    v = len(vehicle_ids)
+
+    # Loop through all possible combinations of VehicleID and Year
+    for vehicle_id in vehicle_ids:
+
+        # hledání minimálního roku, pro který má dané vehicle_id vyplněnou cenu
+        min_year_vehid = max_year
+        for price_record in root_new.find("Price"):
+            if (price_record.find("VehicleID").text == vehicle_id and int(
+                    price_record.find("Year").text) < min_year_vehid):
+                min_year_vehid = int(price_record.find("Year").text)
+
+        # vytvoření pole pro hodnoty, jehož délka odpovídá poštu let stáří, pro které chceme hodnotu doplňovat
+        values_arr = np.empty(max_year + 1 - min_year_vehid)
+        values_arr[:] = np.nan
+
+        # doplnění první hodnoty pole cenou NewPrice z elementu Vehicle a subelementu VehicleRecord pro daté vehicle_id
+        for vehicle_record in root_new.find("Vehicle"):
+            if (vehicle_record.find("VehicleID").text == vehicle_id):
+                values_arr[0] = int(vehicle_record.find("NewPrice").text)
+                break
+
+        # doplnění známých hodnot z elementu Price a subelementu PriceRecord pro daté vehicle_id a daný Year
+        for price_record in root_new.find("Price"):
+            if (price_record.find("VehicleID").text == vehicle_id):
+                values_arr[max_year - int(price_record.find("Year").text)] = int(price_record.find("Value").text)
+
+        # doplnění chybějících cen lineární interpolací
+        values_arr = interpolate(values_arr)
+
+        # zaokrouhlení cen v poli na stovky
+        # for i in range(0, len(values_arr)):
+        #    values_arr[i] = round(values_arr[i], -2)
+
+        # doplnění zaokrouhlených (na stovky) cen pro chybějící roky do XML
+        for i in range(0, len(values_arr)):
+            exists = False
+            for price_record in root_new.find("Price"):
+                if (price_record.find("VehicleID").text == vehicle_id and int(price_record.find("Year").text) == (
+                        max_year - i)):
+                    exists = True
+                    break
+            if not exists:
+                new_pricerecord = ET.Element("PriceRecord")
+                ET.SubElement(new_pricerecord, "VehicleID").text = vehicle_id
+                ET.SubElement(new_pricerecord, "Year").text = str(max_year - i)
+                ET.SubElement(new_pricerecord, "Value").text = str(round(round(values_arr[i]), -2))
+                root_price.append(new_pricerecord)
+
+        n = n+1
+        print(n, "z", v, ",", n/v*100, "%")
+
+    # propsání změn do nového XML dokumentu
+    tree_new.write(file)
 
 def fillXML(file, max_year=datetime.datetime.now().year):
     # Load the input XML file
@@ -235,8 +354,8 @@ def fillXML(file, max_year=datetime.datetime.now().year):
         values_arr[int(pri_rec.find("VehicleID").text) - min_vehid][max_year - int(pri_rec.find("Year").text)] = int(pri_rec.find("Value").text)
         values_bool_arr[int(pri_rec.find("VehicleID").text) - min_vehid][max_year - int(pri_rec.find("Year").text)] = False
 
-    # kontrola: n = 0
-    # kontrola: v = max_vehid + 1 - min_vehid
+    n = 0
+    v = max_vehid + 1 - min_vehid
 
     # lineární interpolace a naplnění XML
     for vehid in range(min_vehid, max_vehid + 1):
@@ -252,14 +371,13 @@ def fillXML(file, max_year=datetime.datetime.now().year):
                     ET.SubElement(new_pricerecord, "Year").text = str(max_year - i)
                     ET.SubElement(new_pricerecord, "Value").text = str(round(round(values_arr[vehid - min_vehid][i]), -2))
                     root_price.append(new_pricerecord)
-        # kontrola: n = n + 1
-        # kontrola: print(n, "z", v, ",", n / v * 100, "%")
+        n = n + 1
+        print(n, "z", v, ",", n / v * 100, "%")
 
     # propsání změn do nového XML dokumentu
     tree_new.write(file)
 
 def doplnit_fce():
-    global exit
     if update_name.get().lower() == "" or (prefix.get().lower()+update_name.get().lower()) == file_name.lower():
         tk.messagebox.showerror("Špatný název nového souboru", "Změňte prosím název pro nový soubor tak, aby nebyl prázdný, nebo nebyl shodný s názvem nahraného souboru.")
     else:
@@ -269,21 +387,54 @@ def doplnit_fce():
             file_names_arr.append(prefix.get()+update_name.get())
         fillXML(os.path.join(directory, (prefix.get()+update_name.get() + ".xml")))
         doplnit_btn['text'] = "Doplněno!"
-        exit = True
+
+def changeXML_old(file, koef, manuf, model, year_start, year_end):
+    # Load the input XML file
+    tree_new = ET.parse(file)
+    root_new = tree_new.getroot()
+
+    n = 0
+    v = len(root_new.find("Price"))
+
+    # propsání koeficientu do ceny u vybraných značek a modelů a také dle stáří
+    for pri_rec in root_new.find("Price"):
+        n = n + 1
+        print(n, "z", v, ",", n / v * 100, "%")
+        if (int(pri_rec.find("Year").text) <= year_end and int(pri_rec.find("Year").text) >= year_start):
+            for veh_rec in root_new.find("Vehicle"):
+                if (pri_rec.find("VehicleID").text == veh_rec.find("VehicleID").text):
+                    for var_rec in root_new.find("Variant"):
+                        if (var_rec.find("VariantID").text == veh_rec.find("VariantID").text):
+                            for eng_rec in root_new.find("Engine"):
+                                if (var_rec.find("EngineID").text == eng_rec.find("EngineID").text):
+                                    for bum_rec in root_new.find("Bum"):
+                                        if (bum_rec.find("BumID").text == eng_rec.find("BumID").text):
+                                            for mod_rec in root_new.find("Model"):
+                                                if (bum_rec.find("ModelID").text == mod_rec.find("ModelID").text and (
+                                                        model == "Všechny modely" or mod_rec.find("Text").text == model)):
+                                                    for man_rec in root_new.find("Manufacturer"):
+                                                        if (man_rec.find("ManufacturerID").text == mod_rec.find(
+                                                                "ManufacturerID").text and man_rec.find(
+                                                                "Text").text == manuf):
+                                                            pri_rec.find("Value").text = str(
+                                                                round(round(int(pri_rec.find("Value").text) * koef),
+                                                                      -2))
+    # propsání změn do nového XML dokumentu
+    tree_new.write(file)
 
 def changeXML(file, koef, manuf, model, year_start, year_end):
     # Load the input XML file
     tree_new = ET.parse(file)
     root_new = tree_new.getroot()
 
-    # kontrola: n = 0
-    # kontrola: v = len(root_new.find("Manufacturer"))
+    n = 0
+    v = len(root_new.find("Manufacturer"))
 
     # propsání koeficientu do ceny u vybraných značek a modelů a také dle stáří
     for man_rec in root_new.find("Manufacturer"):
-        # kontrola: n = n + 1
-        # kontrola: print(n, "z", v, ",", n / v * 100, "%")
-        if manuf == "Všechny značky" or man_rec.find("Text").text == manuf:
+        n = n + 1
+        print(n, "z", v, ",", n / v * 100, "%")
+        if man_rec.find("Text").text == manuf:
             for mod_rec in root_new.find("Model"):
                 if (model == "Všechny modely" or mod_rec.find("Text").text == model) and man_rec.find("ManufacturerID").text == mod_rec.find("ManufacturerID").text:
                     for bum_rec in root_new.find("Bum"):
@@ -301,7 +452,6 @@ def changeXML(file, koef, manuf, model, year_start, year_end):
     tree_new.write(file)
 
 def upravit_fce():
-    global exit
     if update_name.get().lower() == "" or (prefix.get().lower()+update_name.get().lower()) == file_name.lower():
         tk.messagebox.showerror("Špatný název nového souboru", "Změňte prosím název pro nový soubor tak, aby nebyl prázdný, nebo nebyl shodný s názvem nahraného souboru.")
     elif changes == []:
@@ -316,10 +466,8 @@ def upravit_fce():
             changeXML(os.path.join(directory, (prefix.get()+update_name.get() + ".xml")), change.koef, change.manuf,
                       change.model, int(change.start), int(change.end))
         upravit_btn['text'] = "Upraveno!"
-        exit = True
 
 def ultimate_fce():
-    global exit
     if update_name.get().lower() == "" or (prefix.get().lower()+update_name.get().lower()) == file_name.lower():
         tk.messagebox.showerror("Špatný název nového souboru", "Změňte prosím název pro nový soubor tak, aby nebyl prázdný, nebo nebyl shodný s názvem nahraného souboru.")
     else:
@@ -332,7 +480,9 @@ def ultimate_fce():
             changeXML(os.path.join(directory, (prefix.get()+update_name.get() + ".xml")), change.koef, change.manuf,
                       change.model, int(change.start), int(change.end))
         ultimate_btn['text'] = "ULT1M4T3!"
-        exit = True
+
+# def showName():
+    # show_name['text'] = prefix.get()+update_name.get()
 
 def setOd(event):
     if int(do.get()) < int(od.get()):
@@ -355,56 +505,6 @@ def on_enter(event):
 
 def on_leave(event):
     event.widget.configure(bg="#ef7a00", fg="white")  # Change the background color when the mouse leaves
-
-root = tk.Tk()
-
-root.configure(bg="#00234b") #00234b #003876 #ef7a00
-root.geometry("800x600")
-root.title("FixMall ULTIMATE - AAD edition")
-
-# název
-logo_grig = tk.Frame(root, bg="#00234b")
-logo_grig.columnconfigure(0, weight=1)
-logo_grig.columnconfigure(1, weight=1)
-
-logo = tk.Label(logo_grig, text="FixMall", font=("Impact", 30), bg="#00234b", fg="white")
-logo.grid(column=0, row=0, rowspan=2, sticky="w", padx=5, pady=5)
-
-logo_aad = tk.Label(logo_grig, text=("agentúra auto data").upper(), font=("Lexend", 10, "bold"), bg="#00234b", fg="#ef7a00")
-logo_aad.grid(column=1, row=0, sticky="e", padx=5, pady=(5,0))
-
-logo_edition = tk.Label(logo_grig, text="EDITION", font=("Lexend", 10, "bold"), bg="#00234b", fg="#ef7a00")
-logo_edition.grid(column=1, row=1, sticky="e", padx=5, pady=(0, 5))
-
-logo_grig.pack(fill="x")
-
-# ultimate název
-ultimate_grid = tk.Frame(root, bg="#00234b")
-ultimate_grid.columnconfigure(0, weight=1)
-ultimate_grid.columnconfigure(1, weight=2)
-ultimate_grid.columnconfigure(2, weight=2)
-ultimate_grid.columnconfigure(3, weight=2)
-ultimate_grid.columnconfigure(4, weight=2)
-ultimate_grid.columnconfigure(5, weight=2)
-ultimate_grid.columnconfigure(6, weight=2)
-ultimate_grid.columnconfigure(7, weight=1)
-ult_U = tk.Label(ultimate_grid, text="U", font=("Georgia", 15, "bold"), bg="#00234b", fg="white")
-ult_U.grid(column=0, row=0, padx=5, pady=(0, 15), sticky="w")
-ult_L = tk.Label(ultimate_grid, text="L", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ffe6cc")
-ult_L.grid(column=1, row=0, padx=5, pady=(0, 15))
-ult_T = tk.Label(ultimate_grid, text="T", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ffcd99")
-ult_T.grid(column=2, row=0, padx=5, pady=(0, 15))
-ult_I = tk.Label(ultimate_grid, text="I", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ffb266")
-ult_I.grid(column=3, row=0, padx=5, pady=(0, 15))
-ult_M = tk.Label(ultimate_grid, text="M", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ff9933")
-ult_M.grid(column=4, row=0, padx=5, pady=(0, 15))
-ult_A = tk.Label(ultimate_grid, text="A", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ff8000")
-ult_A.grid(column=5, row=0, padx=5, pady=(0, 15))
-ult_T2 = tk.Label(ultimate_grid, text="T", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ff6600")
-ult_T2.grid(column=6, row=0, padx=5, pady=(0, 15))
-ult_E = tk.Label(ultimate_grid, text="E", font=("Georgia", 15, "bold"), bg="#00234b", fg="#ef7a00")
-ult_E.grid(column=7, row=0, padx=5, pady=(0, 15), sticky="e")
-ultimate_grid.pack(fill="x")
 
 file_names_arr = []
 
@@ -589,11 +689,25 @@ changes_frame_top5.grid(row=0, column=5, sticky="we")
 
 changes_frame.pack(fill="both", expand=1)
 
-exit = True
+def printnuti():
+    #print(prefix.get())
+    #print(update_name.get())
+    #print(prefix.get()+update_name.get())
+    #print(koeficient.get()*2)
+    #print(datetime.datetime.now().year*3)
+    #print(int(od.get())*2)
+    #print(znacky, znacka.get())
+    #print(modely, model.get())
+    #print(root_orig)
+    print(changes)
+    #print(changes_labels)
+    #print(file_names_arr)
+
+# print_btn = tk.Button(root, text="printni", font=('Arial', 15), command=printnuti)
+# print_btn.pack(padx=5, pady=5)
+
 def confirmExit():
-    global exit
-    if not exit:
-        exit = tk.messagebox.askyesno(title="Konec hry!", message="Určitě?")
+    exit = tk.messagebox.askyesno(title="Konec hry!", message="Určitě?")
     if exit:
         root.destroy()
 
