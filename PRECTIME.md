@@ -53,6 +53,12 @@ Aby bala úprava provedena, musí být přidána do sekce `Aktuální úpravy`. 
 
 Vytvoření nového XML souboru s doplněnými a zároveň upravenými daty můžete provést stiskem tlačítka `Ultimate XML`. Nejprve proběhne doplnění, až poté proběhne úprava, což může být důležité v případě, že se upravuje jen určitý interval stáří pomocí `Od` a `Do`.
 
+---
+
+## Foto funkce
+
+Pokud máte ve složce s programem přítomnou složku `pic` s obrázky jednotlivých automobilů (tato složka je přítomna v `zip` souboru, který se stahuje z [AAD](https://www.aad.sk/)), pak se po výběru konkrétního `Modelu` aktivuje tlačítko `Foto`. Po jeho stisku se objeví další okno, ve kterém lze pomoví tlačítek `<` a `>` přepínat informace a fotky jednotlivých variant daného `Modelu`.
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/adamriha97/fixmall/main/icon_fixmall.ico" />
 </p>

@@ -55,6 +55,12 @@ To apply the modification, it needs to be added to the `Current Modifications` (
 
 To create a new XML file with both filled and modified data, you can use the `Ultimate XML` button. First, supplementation will take place, and only then will the adjustment occur, which can be important in case only a specific age range is being adjusted using `From` (`Od`) and `To` (`Do`).
 
+---
+
+## Photo Function
+
+If you have a folder named `pic` with images of individual cars present in the program directory (this folder is included in the downloaded `zip` file from [AAD](https://www.aad.sk/)), then after selecting a specific `Model`, the `Photo` (`Foto`) button becomes active. Upon pressing it, another window will appear where you can navigate through information and photos of various versions of the selected `Model` using the `<` and `>` buttons.
+
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/adamriha97/fixmall/main/icon_fixmall.ico" />
