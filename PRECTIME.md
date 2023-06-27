@@ -6,7 +6,7 @@ _FixMall_ je program sloužící k úpravě XML souborů stahovaných z portálu
 
 ## Spuštění programu
 
-Po spuštění programu je funkční pouze talčítko `Nahrát XML`, po jehož stisknutí vyskočí okno, ve které uživatel vybere XML soubor, který stáhl ze stránek [AAD](https://www.aad.sk/). Po nahrání se zpřístupní ostatní možnosti programu.
+Po spuštění programu je funkční pouze tlačítko `Nahrát XML`, po jehož stisknutí vyskočí okno, ve které uživatel vybere XML soubor, který stáhl ze stránek [AAD](https://www.aad.sk/). Po nahrání se zpřístupní ostatní možnosti programu.
 
 ---
 
