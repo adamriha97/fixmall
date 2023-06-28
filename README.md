@@ -59,7 +59,7 @@ To create a new XML file with both filled and modified data, you can use the `Ul
 
 ## Photo Function
 
-If you have a folder named `pic` with images of individual cars present in the program directory (this folder is included in the downloaded `zip` file from [AAD](https://www.aad.sk/)), then after selecting a specific `Model`, the `Photo` (`Foto`) button becomes active. Upon pressing it, another window will appear where you can navigate through information and photos of various versions of the selected `Model` using the `<` and `>` buttons.
+If you have a folder named `pic` with images of individual cars present in the same directory as uploaded XML file (this folder is included in the downloaded `zip` file from [AAD](https://www.aad.sk/)), then after selecting a specific `Model`, the `Photo` (`Foto`) button becomes active. Upon pressing it, another window will appear where you can navigate through information and photos of various versions of the selected `Model` using the `<` and `>` buttons.
 
 
 <p align="center">

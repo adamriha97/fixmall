@@ -57,7 +57,7 @@ Vytvoření nového XML souboru s doplněnými a zároveň upravenými daty mů�
 
 ## Foto funkce
 
-Pokud máte ve složce s programem přítomnou složku `pic` s obrázky jednotlivých automobilů (tato složka je přítomna v `zip` souboru, který se stahuje z [AAD](https://www.aad.sk/)), pak se po výběru konkrétního `Modelu` aktivuje tlačítko `Foto`. Po jeho stisku se objeví další okno, ve kterém lze pomoví tlačítek `<` a `>` přepínat informace a fotky jednotlivých variant daného `Modelu`.
+Pokud máte ve složce s nahraným XML souborem přítomnou složku `pic` s obrázky jednotlivých automobilů (tato složka je přítomna v `zip` souboru, který se stahuje z [AAD](https://www.aad.sk/)), pak se po výběru konkrétního `Modelu` aktivuje tlačítko `Foto`. Po jeho stisku se objeví další okno, ve kterém lze pomoví tlačítek `<` a `>` přepínat informace a fotky jednotlivých variant daného `Modelu`.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/adamriha97/fixmall/main/icon_fixmall.ico" />
