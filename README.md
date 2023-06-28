@@ -1,6 +1,6 @@
 # <p style="text-align: center;">FixMall ULTIMATE <sub>AAD edition</sub><p>
 
-_FixMall_ is a program designed to modify XML files downloaded from the [AAD](https://www.aad.sk/) portal. In this program, it is possible to __complete__ missing car prices using [linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation). Additionally, the program allows for __editing__ prices of selected _brands_, _models_, and age _ranges_ by multiplying them by a chosen coefficient.
+_[FixMall](https://github.com/adamriha97/fixmall)_ is a program designed to modify XML files downloaded from the [AAD](https://www.aad.sk/) portal. In this program, it is possible to __complete__ missing car prices using [linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation). Additionally, the program allows for __editing__ prices of selected _brands_, _models_, and age _ranges_ by multiplying them by a chosen coefficient.
 
 ---
 
@@ -54,6 +54,12 @@ To apply the modification, it needs to be added to the `Current Modifications` (
 ## Ultimate Function
 
 To create a new XML file with both filled and modified data, you can use the `Ultimate XML` button. First, supplementation will take place, and only then will the adjustment occur, which can be important in case only a specific age range is being adjusted using `From` (`Od`) and `To` (`Do`).
+
+---
+
+## Photo Function
+
+If you have a folder named `pic` with images of individual cars present in the same directory as uploaded XML file (this folder is included in the downloaded `zip` file from [AAD](https://www.aad.sk/)), then after selecting a specific `Model`, the `Photo` (`Foto`) button becomes active. Upon pressing it, another window will appear where you can navigate through information and photos of various versions of the selected `Model` using the `<` and `>` buttons.
 
 
 <p align="center">

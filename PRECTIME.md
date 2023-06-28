@@ -1,12 +1,12 @@
 # <p style="text-align: center;">FixMall ULTIMATE <sub>AAD edition</sub><p>
 
-_FixMall_ je program sloužící k úpravě XML souborů stahovaných z portálu [AAD](https://www.aad.sk/). Lze v něm __doplňovat__ chybějící ceny vozů za pomoci [lineární interpolace](https://cs.wikipedia.org/wiki/Line%C3%A1rn%C3%AD_interpolace). Dále program umožňuje __upravovat__ ceny vybraných _značek_, popřípadě _modelů_ a intervalu _stáří_ pomocí pronásobení zvoleným koeficientem.
+_[FixMall](https://github.com/adamriha97/fixmall)_ je program sloužící k úpravě XML souborů stahovaných z portálu [AAD](https://www.aad.sk/). Lze v něm __doplňovat__ chybějící ceny vozů za pomoci [lineární interpolace](https://cs.wikipedia.org/wiki/Line%C3%A1rn%C3%AD_interpolace). Dále program umožňuje __upravovat__ ceny vybraných _značek_, popřípadě _modelů_ a intervalu _stáří_ pomocí pronásobení zvoleným koeficientem.
 
 ---
 
 ## Spuštění programu
 
-Po spuštění programu je funkční pouze talčítko `Nahrát XML`, po jehož stisknutí vyskočí okno, ve které uživatel vybere XML soubor, který stáhl ze stránek [AAD](https://www.aad.sk/). Po nahrání se zpřístupní ostatní možnosti programu.
+Po spuštění programu je funkční pouze tlačítko `Nahrát XML`, po jehož stisknutí vyskočí okno, ve které uživatel vybere XML soubor, který stáhl ze stránek [AAD](https://www.aad.sk/). Po nahrání se zpřístupní ostatní možnosti programu.
 
 ---
 
@@ -52,6 +52,12 @@ Aby bala úprava provedena, musí být přidána do sekce `Aktuální úpravy`. 
 ## Ultimate funkce
 
 Vytvoření nového XML souboru s doplněnými a zároveň upravenými daty můžete provést stiskem tlačítka `Ultimate XML`. Nejprve proběhne doplnění, až poté proběhne úprava, což může být důležité v případě, že se upravuje jen určitý interval stáří pomocí `Od` a `Do`.
+
+---
+
+## Foto funkce
+
+Pokud máte ve složce s nahraným XML souborem přítomnou složku `pic` s obrázky jednotlivých automobilů (tato složka je přítomna v `zip` souboru, který se stahuje z [AAD](https://www.aad.sk/)), pak se po výběru konkrétního `Modelu` aktivuje tlačítko `Foto`. Po jeho stisku se objeví další okno, ve kterém lze pomoví tlačítek `<` a `>` přepínat informace a fotky jednotlivých variant daného `Modelu`.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/adamriha97/fixmall/main/icon_fixmall.ico" />

@@ -6,6 +6,7 @@ import datetime
 import shutil
 import xml.etree.ElementTree as ET
 import numpy as np
+from PIL import ImageTk
 
 class Change:
     def __init__(self, koef, manuf, model, start, end):
@@ -14,6 +15,13 @@ class Change:
         self.model = model
         self.start = start
         self.end = end
+
+class Car:
+    def __init__(self, img_id, bum, engine, variant):
+        self.img_id = img_id
+        self.bum = bum
+        self.engine = engine
+        self.variant = variant
 
 def destroyCahngesList():
     global changes_labels
@@ -108,6 +116,10 @@ def nactiModely(event):
                 modely.append(mod_rec.find("Text").text)
     model['values'] = modely
     model.current(0)
+    pic_button['state'] = "disabled"
+    pic_button['bg'] = "#4c2400"
+    pic_button.unbind("<Enter>")
+    pic_button.unbind("<Leave>")
 
 def nactiZnacky():
     global znacky, tree, root_orig
@@ -141,8 +153,7 @@ def nactiZnacky():
 
 def nahrat_fce():
     global directory, file_name, changes, exit
-    # "/Users/adamr/PycharmProjects/AAD_xml_solver_ultimate/"
-    root.filename = filedialog.askopenfilename(initialdir="/", title="Vyberte XML", filetypes=[('XML files', '*.xml')]) # filetypes=(("XML soubory", "*.xml"), ("Všechny soubory", "*.xml*"))
+    root.filename = filedialog.askopenfilename(initialdir=directory, title="Vyberte XML", filetypes=[('XML files', '*.xml')]) # filetypes=(("XML soubory", "*.xml"), ("Všechny soubory", "*.xml*"))
     if root.filename != "":
         directory = os.path.dirname(root.filename)
         file_name = os.path.splitext(os.path.basename(root.filename))[0]
@@ -350,6 +361,112 @@ def setDo(event):
         ods.append(i)
     od['values'] = ods
 
+def activateFotoButton(event):
+    if model.get() == "Všechny modely" or not os.path.exists(directory + "/pic"):
+        pic_button['state'] = "disabled"
+        pic_button['bg'] = "#4c2400"
+        pic_button.unbind("<Enter>")
+        pic_button.unbind("<Leave>")
+    else:
+        pic_button['state'] = "normal"
+        pic_button['bg'] = "#ef7a00"
+        pic_button.bind("<Enter>", on_enter)
+        pic_button.bind("<Leave>", on_leave)
+
+def previousImg():
+    global img, img_number, img_bum, img_engine, img_variant
+    img_number = (img_number - 1) % len(imgs)
+    img = ImageTk.PhotoImage(file=directory + "/pic/" + imgs[img_number].img_id)
+    img_label = tk.Label(pic, image=img)
+    img_label.grid(padx=150, pady=15, column=1, row=5, columnspan=2)
+    pic.title(znacka.get()+" "+model.get()+" - "+str(img_number+1)+"/"+str(len(imgs)))
+    img_bum.destroy()
+    img_bum = tk.Label(pic, text=imgs[img_number].bum, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_bum.grid(column=2, row=2, sticky="w")
+    img_engine.destroy()
+    img_engine = tk.Label(pic, text=imgs[img_number].engine, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_engine.grid(column=2, row=3, sticky="w")
+    img_variant.destroy()
+    img_variant = tk.Label(pic, text=imgs[img_number].variant, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_variant.grid(column=2, row=4, sticky="w")
+
+def nextImg():
+    global img, img_number, img_bum, img_engine, img_variant
+    img_number = (img_number + 1) % len(imgs)
+    img = ImageTk.PhotoImage(file=directory + "/pic/" + imgs[img_number].img_id)
+    img_label = tk.Label(pic, image=img)
+    img_label.grid(padx=150, pady=15, column=1, row=5, columnspan=2)
+    pic.title(znacka.get()+" "+model.get()+" - "+str(img_number+1)+"/"+str(len(imgs)))
+    img_bum.destroy()
+    img_bum = tk.Label(pic, text=imgs[img_number].bum, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_bum.grid(column=2, row=2, sticky="w")
+    img_engine.destroy()
+    img_engine = tk.Label(pic, text=imgs[img_number].engine, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_engine.grid(column=2, row=3, sticky="w")
+    img_variant.destroy()
+    img_variant = tk.Label(pic, text=imgs[img_number].variant, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_variant.grid(column=2, row=4, sticky="w")
+
+def showFoto():
+    global pic, img, img_number, imgs, img_bum, img_engine, img_variant
+    pic = tk.Toplevel()
+    pic.configure(bg="#00234b")
+    if os.path.exists("icon_fixmall.ico"):
+        pic.iconbitmap("icon_fixmall.ico")
+    imgs = []
+    for mod_rec in root_orig.find("Model"):
+        if (model.get() == mod_rec.find("Text").text):
+            for bum_rec in root_orig.find("Bum"):
+                if bum_rec.find("ModelID").text == mod_rec.find("ModelID").text:
+                    for eng_rec in root_orig.find("Engine"):
+                        if bum_rec.find("BumID").text == eng_rec.find("BumID").text:
+                            for var_rec in root_orig.find("Variant"):
+                                if var_rec.find("EngineID").text == eng_rec.find("EngineID").text:
+                                    for veh_rec in root_orig.find("Vehicle"):
+                                        if var_rec.find("VariantID").text == veh_rec.find("VariantID").text:
+                                            imgs.append(Car(veh_rec.find("PictureID").text, bum_rec.find("Text").text, eng_rec.find("Text").text, var_rec.find("Text").text))
+    img_number = 0
+    # info značka
+    img_znacka_text = tk.Label(pic, text="Značka:", font=("Lexend", 10, "bold"), bg="#00234b", fg="white")
+    img_znacka_text.grid(pady=(15, 0), column=1, row=0, sticky="e")
+    img_znacka = tk.Label(pic, text=znacka.get(), font=("Lexend", 10), bg="#00234b", fg="white")
+    img_znacka.grid(pady=(15, 0), column=2, row=0, sticky="w")
+    # info model
+    img_model_text = tk.Label(pic, text="Model:", font=("Lexend", 10, "bold"), bg="#00234b", fg="white")
+    img_model_text.grid(column=1, row=1, sticky="e")
+    img_model = tk.Label(pic, text=model.get(), font=("Lexend", 10), bg="#00234b", fg="white")
+    img_model.grid(column=2, row=1, sticky="w")
+    # info bum
+    img_bum_text = tk.Label(pic, text="Bum:", font=("Lexend", 10, "bold"), bg="#00234b", fg="white")
+    img_bum_text.grid(column=1, row=2, sticky="e")
+    img_bum = tk.Label(pic, text=imgs[img_number].bum, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_bum.grid(column=2, row=2, sticky="w")
+    # info engine
+    img_engine_text = tk.Label(pic, text="Motor:", font=("Lexend", 10, "bold"), bg="#00234b", fg="white")
+    img_engine_text.grid(column=1, row=3, sticky="e")
+    img_engine = tk.Label(pic, text=imgs[img_number].engine, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_engine.grid(column=2, row=3, sticky="w")
+    # info variant
+    img_variant_text = tk.Label(pic, text="Varianta:", font=("Lexend", 10, "bold"), bg="#00234b", fg="white")
+    img_variant_text.grid(column=1, row=4, sticky="e")
+    img_variant = tk.Label(pic, text=imgs[img_number].variant, font=("Lexend", 10), bg="#00234b", fg="white")
+    img_variant.grid(column=2, row=4, sticky="w")
+    # obrázek
+    pic.title(znacka.get()+" "+model.get()+" - "+str(img_number+1)+"/"+str(len(imgs)))
+    img = ImageTk.PhotoImage(file=directory + "/pic/" + imgs[img_number].img_id)
+    img_label = tk.Label(pic, image=img)
+    img_label.grid(padx=150, pady=15, column=1, row=5, columnspan=2)
+    # tlačítko předchozí
+    prev_but = tk.Button(pic, text=" < ", font=("Lexend", 15, "bold"), bg="#ef7a00", fg="white", activebackground="white", activeforeground="#ef7a00", command=previousImg)
+    prev_but.bind("<Enter>", on_enter)
+    prev_but.bind("<Leave>", on_leave)
+    prev_but.grid(column=0, row=0, sticky="ns", rowspan=6)
+    # tlačítko další
+    newt_but = tk.Button(pic, text=" > ", font=("Lexend", 15, "bold"), bg="#ef7a00", fg="white", activebackground="white", activeforeground="#ef7a00", command=nextImg)
+    newt_but.bind("<Enter>", on_enter)
+    newt_but.bind("<Leave>", on_leave)
+    newt_but.grid(column=3, row=0, sticky="ns", rowspan=6)
+
 def on_enter(event):
     event.widget.configure(bg="white", fg="#ef7a00")  # Change the background color when the mouse enters #ff9933
 
@@ -361,6 +478,8 @@ root = tk.Tk()
 root.configure(bg="#00234b") #00234b #003876 #ef7a00
 root.geometry("800x600")
 root.title("FixMall ULTIMATE - AAD edition")
+if os.path.exists("icon_fixmall.ico"):
+    root.iconbitmap("icon_fixmall.ico")
 
 # název
 logo_grig = tk.Frame(root, bg="#00234b")
@@ -407,6 +526,7 @@ ult_E.grid(column=7, row=0, padx=5, pady=(0, 15), sticky="e")
 ultimate_grid.pack(fill="x")
 
 file_names_arr = []
+directory = "/" 
 
 # hlavní volba
 main_grid = tk.Frame(root, bg="#00234b")
@@ -471,9 +591,10 @@ file_grid.pack(fill="x")
 # název nového souboru
 change_grid = tk.Frame(root, bg="#003876")
 change_grid.columnconfigure(0, weight=1, uniform="label")
-change_grid.columnconfigure(1, weight=30, uniform="vyber")
-change_grid.columnconfigure(2, weight=30, uniform="vyber")
-change_grid.columnconfigure(3, weight=1, uniform="label")
+change_grid.columnconfigure(1, weight=25, uniform="vyber")
+change_grid.columnconfigure(2, weight=10, uniform="vyber")
+change_grid.columnconfigure(3, weight=25, uniform="vyber")
+change_grid.columnconfigure(4, weight=1, uniform="label")
 
 change_grid1 = tk.Label(change_grid, text="Značka", font=('Arial', 11, "bold"), bg="#003876", fg="white")
 change_grid1.grid(padx=5, pady=(15, 5), row=0, column=0)
@@ -482,9 +603,9 @@ change_grid2.grid(padx=5, pady=5, row=1, column=0)
 change_grid3 = tk.Label(change_grid, text="Koeficient", font=('Arial', 11, "bold"), bg="#003876", fg="white")
 change_grid3.grid(padx=5, pady=5, row=2, column=0)
 change_grid4 = tk.Label(change_grid, text="Od", font=('Arial', 11, "bold"), bg="#003876", fg="white")
-change_grid4.grid(padx=5, pady=(15, 5), row=0, column=3)
+change_grid4.grid(padx=5, pady=(15, 5), row=0, column=4)
 change_grid5 = tk.Label(change_grid, text="Do", font=('Arial', 11, "bold"), bg="#003876", fg="white")
-change_grid5.grid(padx=5, pady=5, row=1, column=3)
+change_grid5.grid(padx=5, pady=5, row=1, column=4)
 
 # značka
 znacky = []
@@ -495,7 +616,12 @@ znacka.grid(padx=5, pady=(15, 5), row=0, column=1, sticky="we")
 # model
 modely = []
 model = ttk.Combobox(change_grid, values=modely, state="disabled")
+model.bind("<<ComboboxSelected>>", activateFotoButton)
 model.grid(padx=5, pady=5, row=1, column=1, sticky="we")
+
+# tlačítko na obrázek
+pic_button = tk.Button(change_grid, text="Foto", font=('Arial', 10, "bold"), state="disabled", command=showFoto, bg="#4c2400", fg="white", activebackground="white", activeforeground="#ef7a00")
+pic_button.grid(padx=5, pady=(15, 5), row=0, column=2, rowspan=2, sticky="wens")
 
 # od
 ods = []
@@ -504,7 +630,7 @@ for i in np.arange(2002, datetime.datetime.now().year+1, 1):
 od = ttk.Combobox(change_grid, values=ods, state="disabled")
 od.current(0)
 od.bind("<<ComboboxSelected>>", setOd)
-od.grid(padx=5, pady=(15, 5), row=0, column=2, sticky="we")
+od.grid(padx=5, pady=(15, 5), row=0, column=3, sticky="we")
 
 # do
 dos = []
@@ -513,7 +639,7 @@ for i in np.arange(datetime.datetime.now().year, 2001, -1):
 do = ttk.Combobox(change_grid, values=dos, state="disabled")
 do.current(0)
 do.bind("<<ComboboxSelected>>", setDo)
-do.grid(padx=5, pady=5, row=1, column=2, sticky="we")
+do.grid(padx=5, pady=5, row=1, column=3, sticky="we")
 
 def zmenaKoef(event):
     koeficient_label['text'] = koeficient.get()
@@ -521,10 +647,10 @@ def zmenaKoef(event):
 # koeficient
 koeficient = tk.Scale(change_grid, from_=0, to=2, resolution=0.01, orient="horizontal", state="disabled", bg="#003876", fg="white", highlightbackground="#003876", command=zmenaKoef, showvalue=0)
 koeficient.set(1)
-koeficient.grid(padx=5, pady=5, row=2, column=1, columnspan=2, sticky="we")
+koeficient.grid(padx=5, pady=5, row=2, column=1, columnspan=3, sticky="we")
 
 koeficient_label = tk.Label(change_grid, text=koeficient.get(), font=('Arial', 11, "bold"), bg="#003876", fg="white")
-koeficient_label.grid(padx=5, pady=5, row=2, column=3)
+koeficient_label.grid(padx=5, pady=5, row=2, column=4)
 
 change_grid.pack(fill="x")
 
