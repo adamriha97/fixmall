@@ -362,7 +362,7 @@ def setDo(event):
     od['values'] = ods
 
 def activateFotoButton(event):
-    if model.get() == "Všechny modely" or not os.path.exists("pic"):
+    if model.get() == "Všechny modely" or not os.path.exists(directory + "/pic"):
         pic_button['state'] = "disabled"
         pic_button['bg'] = "#4c2400"
         pic_button.unbind("<Enter>")
@@ -376,7 +376,7 @@ def activateFotoButton(event):
 def previousImg():
     global img, img_number, img_bum, img_engine, img_variant
     img_number = (img_number - 1) % len(imgs)
-    img = ImageTk.PhotoImage(file="pic/" + imgs[img_number].img_id)
+    img = ImageTk.PhotoImage(file=directory + "/pic/" + imgs[img_number].img_id)
     img_label = tk.Label(pic, image=img)
     img_label.grid(padx=150, pady=15, column=1, row=5, columnspan=2)
     pic.title(znacka.get()+" "+model.get()+" - "+str(img_number+1)+"/"+str(len(imgs)))
@@ -393,7 +393,7 @@ def previousImg():
 def nextImg():
     global img, img_number, img_bum, img_engine, img_variant
     img_number = (img_number + 1) % len(imgs)
-    img = ImageTk.PhotoImage(file="pic/" + imgs[img_number].img_id)
+    img = ImageTk.PhotoImage(file=directory + "/pic/" + imgs[img_number].img_id)
     img_label = tk.Label(pic, image=img)
     img_label.grid(padx=150, pady=15, column=1, row=5, columnspan=2)
     pic.title(znacka.get()+" "+model.get()+" - "+str(img_number+1)+"/"+str(len(imgs)))
@@ -453,7 +453,7 @@ def showFoto():
     img_variant.grid(column=2, row=4, sticky="w")
     # obrázek
     pic.title(znacka.get()+" "+model.get()+" - "+str(img_number+1)+"/"+str(len(imgs)))
-    img = ImageTk.PhotoImage(file="pic/" + imgs[img_number].img_id)
+    img = ImageTk.PhotoImage(file=directory + "/pic/" + imgs[img_number].img_id)
     img_label = tk.Label(pic, image=img)
     img_label.grid(padx=150, pady=15, column=1, row=5, columnspan=2)
     # tlačítko předchozí
