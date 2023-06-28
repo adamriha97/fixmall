@@ -1,6 +1,6 @@
 # <p style="text-align: center;">FixMall ULTIMATE <sub>AAD edition</sub><p>
 
-_FixMall_ je program sloužící k úpravě XML souborů stahovaných z portálu [AAD](https://www.aad.sk/). Lze v něm __doplňovat__ chybějící ceny vozů za pomoci [lineární interpolace](https://cs.wikipedia.org/wiki/Line%C3%A1rn%C3%AD_interpolace). Dále program umožňuje __upravovat__ ceny vybraných _značek_, popřípadě _modelů_ a intervalu _stáří_ pomocí pronásobení zvoleným koeficientem.
+_[FixMall](https://github.com/adamriha97/fixmall)_ je program sloužící k úpravě XML souborů stahovaných z portálu [AAD](https://www.aad.sk/). Lze v něm __doplňovat__ chybějící ceny vozů za pomoci [lineární interpolace](https://cs.wikipedia.org/wiki/Line%C3%A1rn%C3%AD_interpolace). Dále program umožňuje __upravovat__ ceny vybraných _značek_, popřípadě _modelů_ a intervalu _stáří_ pomocí pronásobení zvoleným koeficientem.
 
 ---
 
