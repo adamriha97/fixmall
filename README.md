@@ -1,3 +1,7 @@
+<p align="right">
+  <img src="https://img.shields.io/github/release/adamriha97/fixmall.svg?style=for-the-badge">
+</p>
+
 # <p style="text-align: center;">FixMall ULTIMATE <sub>AAD edition</sub><p>
 
 _[FixMall](https://github.com/adamriha97/fixmall)_ is a program designed to modify XML files downloaded from the [AAD](https://www.aad.sk/) portal. In this program, it is possible to __complete__ missing car prices using [linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation). Additionally, the program allows for __editing__ prices of selected _brands_, _models_, and age _ranges_ by multiplying them by a chosen coefficient.
