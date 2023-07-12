@@ -1,5 +1,7 @@
 <p align="right">
-  <img src="https://img.shields.io/github/release/adamriha97/fixmall.svg?style=for-the-badge">
+  <a href="https://github.com/adamriha97/fixmall/releases/latest">
+    <img src="https://img.shields.io/github/release/adamriha97/fixmall.svg?style=for-the-badge">
+  </a>
 </p>
 
 # <p style="text-align: center;">FixMall ULTIMATE <sub>AAD edition</sub><p>
