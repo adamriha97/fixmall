@@ -267,7 +267,7 @@ def fillXML(file, max_year=datetime.datetime.now().year):
         # kontrola: print(n, "z", v, ",", n / v * 100, "%")
 
     # propsání změn do nového XML dokumentu
-    tree_new.write(file)
+    tree_new.write(file, encoding='utf8', method='xml')
 
 def doplnit_fce():
     global exit
@@ -309,7 +309,7 @@ def changeXML(file, koef, manuf, model, year_start, year_end):
                                                         if pri_rec.find("VehicleID").text == veh_rec.find("VehicleID").text and int(pri_rec.find("Year").text) <= year_end and int(pri_rec.find("Year").text) >= year_start:
                                                             pri_rec.find("Value").text = str(round(round(int(pri_rec.find("Value").text) * koef), -2))
     # propsání změn do nového XML dokumentu
-    tree_new.write(file)
+    tree_new.write(file, encoding='utf8', method='xml')
 
 def upravit_fce():
     global exit
