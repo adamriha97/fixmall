@@ -267,7 +267,7 @@ def fillXML(file, max_year=datetime.datetime.now().year):
         # kontrola: print(n, "z", v, ",", n / v * 100, "%")
 
     # propsání změn do nového XML dokumentu
-    tree_new.write(file, encoding='utf8', method='xml')
+    tree_new.write(file, encoding='utf-8', method='xml', xml_declaration=True)
 
 def doplnit_fce():
     global exit
@@ -291,25 +291,30 @@ def changeXML(file, koef, manuf, model, year_start, year_end):
     # kontrola: v = len(root_new.find("Manufacturer"))
 
     # propsání koeficientu do ceny u vybraných značek a modelů a také dle stáří
-    for man_rec in root_new.find("Manufacturer"):
-        # kontrola: n = n + 1
-        # kontrola: print(n, "z", v, ",", n / v * 100, "%")
-        if manuf == "Všechny značky" or man_rec.find("Text").text == manuf:
-            for mod_rec in root_new.find("Model"):
-                if (model == "Všechny modely" or mod_rec.find("Text").text == model) and man_rec.find("ManufacturerID").text == mod_rec.find("ManufacturerID").text:
-                    for bum_rec in root_new.find("Bum"):
-                        if bum_rec.find("ModelID").text == mod_rec.find("ModelID").text:
-                            for eng_rec in root_new.find("Engine"):
-                                if bum_rec.find("BumID").text == eng_rec.find("BumID").text:
-                                    for var_rec in root_new.find("Variant"):
-                                        if var_rec.find("EngineID").text == eng_rec.find("EngineID").text:
-                                            for veh_rec in root_new.find("Vehicle"):
-                                                if var_rec.find("VariantID").text == veh_rec.find("VariantID").text:
-                                                    for pri_rec in root_new.find("Price"):
-                                                        if pri_rec.find("VehicleID").text == veh_rec.find("VehicleID").text and int(pri_rec.find("Year").text) <= year_end and int(pri_rec.find("Year").text) >= year_start:
-                                                            pri_rec.find("Value").text = str(round(round(int(pri_rec.find("Value").text) * koef), -2))
+    if manuf == "Všechny značky" and model == "Všechny modely":
+        for pri_rec in root_new.find("Price"):
+            if int(pri_rec.find("Year").text) <= year_end and int(pri_rec.find("Year").text) >= year_start:
+                pri_rec.find("Value").text = str(round(round(int(pri_rec.find("Value").text) * koef), -2))
+    else:
+        for man_rec in root_new.find("Manufacturer"):
+            # kontrola: n = n + 1
+            # kontrola: print(n, "z", v, ",", n / v * 100, "%")
+            if manuf == "Všechny značky" or man_rec.find("Text").text == manuf:
+                for mod_rec in root_new.find("Model"):
+                    if (model == "Všechny modely" or mod_rec.find("Text").text == model) and man_rec.find("ManufacturerID").text == mod_rec.find("ManufacturerID").text:
+                        for bum_rec in root_new.find("Bum"):
+                            if bum_rec.find("ModelID").text == mod_rec.find("ModelID").text:
+                                for eng_rec in root_new.find("Engine"):
+                                    if bum_rec.find("BumID").text == eng_rec.find("BumID").text:
+                                        for var_rec in root_new.find("Variant"):
+                                            if var_rec.find("EngineID").text == eng_rec.find("EngineID").text:
+                                                for veh_rec in root_new.find("Vehicle"):
+                                                    if var_rec.find("VariantID").text == veh_rec.find("VariantID").text:
+                                                        for pri_rec in root_new.find("Price"):
+                                                            if pri_rec.find("VehicleID").text == veh_rec.find("VehicleID").text and int(pri_rec.find("Year").text) <= year_end and int(pri_rec.find("Year").text) >= year_start:
+                                                                pri_rec.find("Value").text = str(round(round(int(pri_rec.find("Value").text) * koef), -2))
     # propsání změn do nového XML dokumentu
-    tree_new.write(file, encoding='utf8', method='xml')
+    tree_new.write(file, encoding='utf-8', method='xml', xml_declaration=True)
 
 def upravit_fce():
     global exit
