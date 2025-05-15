@@ -8,7 +8,7 @@ folder_path = 'S:/A0005184/AAD/_archiv/2025_05/'
 tree_old = ET.parse(f'{folder_path}vystup_202503_01_v1_doplneno.xml')
 root_old = tree_old.getroot()
 
-tree_new = ET.parse(f'{folder_path}vystup_202503_01_v1_doplneno_upraveno.xml')
+tree_new = ET.parse(f'{folder_path}vystup_202503_01_v1_doplneno_upraveno_V2.xml')
 root_new = tree_new.getroot()
 
 # Load CSV intervals
@@ -64,7 +64,7 @@ for price_record in root_new.findall(".//PriceRecord"):
                 break
 
 # Save the modified new XML file
-tree_new.write(f'{folder_path}vystup_202503_01_v1_doplneno_upraveno_intervaly.xml', encoding='utf-8', xml_declaration=True)
+tree_new.write(f'{folder_path}vystup_202503_01_v1_doplneno_upraveno_V2_intervaly.xml', encoding='utf-8', xml_declaration=True)
 
 print(f"number_of_prices: {number_of_prices}")
 print(f"number_of_changed_prices: {number_of_changed_prices}")
